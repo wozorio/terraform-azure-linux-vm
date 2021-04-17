@@ -21,6 +21,7 @@ variable "size" {
 variable "admin_username" {
   description = "The username of the local administrator used for the Virtual Machine"
   type        = string
+  sensitive   = true
 }
 
 variable "admin_password" {
