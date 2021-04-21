@@ -82,7 +82,9 @@ jobs:
 
     # Logs in to Azure subscription
     - name: Login to Azure
-      run: az login
+      run: echo "Teste" \
+           echo "123" \
+           echo "olha"
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
