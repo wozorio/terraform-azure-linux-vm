@@ -24,7 +24,7 @@ variable "ip_configuration_subnet_id" {
 }
 
 variable "ip_configuration_private_ip_address_allocation" {
-  description = "The IP Version to use. Possible values are IPv4 or IPv6. Defaults to IPv4"
+  description = "The allocation method used for the Private IP Address. Possible values are Dynamic and Static"
   type        = string
   default     = "Dynamic"
 }
