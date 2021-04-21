@@ -22,11 +22,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    # Install the latest version of Terraform CLI
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
-      with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -44,9 +42,12 @@ jobs:
           --username ${{ env.SERVICE_PRINCIPAL_ID }} \
           --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
           --tenant ${{ env.TENANT_ID }}
+          
+          az account set -s ${{ env.SUBSCRIPTION_ID }}
       env:
         SERVICE_PRINCIPAL_ID: d44ee249-c468-475e-9e92-1720b68361ea
         TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+        SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
 
 # Generates an execution plan for Terraform
     - name: Terraform Plan
@@ -57,3 +58,8 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: terraform apply -auto-approve
+      env:
+        ARM_SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
+        ARM_CLIENT_ID: d44ee249-c468-475e-9e92-1720b68361ea
+        ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
+        ARM_TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
