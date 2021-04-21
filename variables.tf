@@ -1,5 +1,6 @@
 variable "location" {
   description = "The Azure Region where the resources should exist"
+  type        = string
 }
 
 variable "admin_password" {
