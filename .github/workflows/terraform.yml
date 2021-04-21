@@ -82,11 +82,17 @@ jobs:
 
     # Logs in to Azure subscription
     - name: Login to Azure
-      run: echo "Teste" \
-           echo "123" \
-           echo "olha"
+      run: |
+        az login \
+          --service-principal \
+          --username ${{ env.SERVICE_PRINCIPAL_ID }} \
+          --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
+          --tenant ${{ env.TENANT_ID }}
+      env:
+        SERVICE_PRINCIPAL_ID: d44ee249-c468-475e-9e92-1720b68361ea
+        TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
 
-    # Generates an execution plan for Terraform
+# Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -var 'admin_password=${{ secrets.ADMIN_PASSWORD }}'
 
