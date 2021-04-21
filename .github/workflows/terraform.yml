@@ -80,6 +80,10 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
 
+    # Logs in to Azure subscription
+    - name: Login to Azure
+      run: az login
+
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -var 'admin_password=${{ secrets.ADMIN_PASSWORD }}'
