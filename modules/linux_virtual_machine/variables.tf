@@ -18,6 +18,12 @@ variable "size" {
   type        = string
 }
 
+variable "disable_password_authentication" {
+  description = "Should Password Authentication be disabled on this Virtual Machine"
+  type        = bool
+  default     = false
+}
+
 variable "admin_username" {
   description = "The username of the local administrator used for the Virtual Machine"
   type        = string
