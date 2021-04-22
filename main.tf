@@ -2,6 +2,14 @@ provider "azurerm" {
   features {}
 }
 
+terraform {
+  backend "azurerm" {
+    storage_account_name = "stterraformwozorio"
+    container_name       = "tfstate"
+    key                  = "playground"
+  }
+}
+
 module "rg_lab" {
   source   = "./modules/resource_group/"
   name     = "rg-lab"
