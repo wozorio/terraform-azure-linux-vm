@@ -7,10 +7,9 @@ on:
   pull_request:
 
 jobs:
-  terraform:
-    name: 'terraform_plan'
+  terraform_plan:
+    name: Terraform Plan
     runs-on: ubuntu-latest
-    environment: playground
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -68,6 +67,64 @@ jobs:
     # On push to master, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: terraform apply -auto-approve -var 'admin_password=${{ secrets.ADMIN_PASSWORD }}'
+      env:
+        ARM_SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
+        ARM_CLIENT_ID: d44ee249-c468-475e-9e92-1720b68361ea
+        ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
+        ARM_TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+
+  terraform_apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    environment: playground
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Install the latest version of Terraform CLI
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check
+
+    # Log in to Azure subscription
+    - name: Login to Azure
+      run: |
+        az login \
+          --service-principal \
+          --username ${{ env.SERVICE_PRINCIPAL_ID }} \
+          --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
+          --tenant ${{ env.TENANT_ID }}
+          
+          az account set -s ${{ env.SUBSCRIPTION_ID }}
+      env:
+        SERVICE_PRINCIPAL_ID: d44ee249-c468-475e-9e92-1720b68361ea
+        TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+        SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: |
+        ACCESS_KEY=$(az storage account keys list \
+          --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
+          --query "[0].value" | tr -d '"')
+        
+        terraform init -backend-config="access_key=${ACCESS_KEY}"
+      env:
+        STORAGE_ACCOUNT_NAME: stterraformwozorio
+
+    # On push to master, build or change infrastructure according to Terraform configuration files
+    - name: Terraform Apply
       run: terraform apply -auto-approve -var 'admin_password=${{ secrets.ADMIN_PASSWORD }}'
       env:
         ARM_SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
