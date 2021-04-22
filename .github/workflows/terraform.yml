@@ -26,15 +26,11 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
-
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
 
-    # Logs in to Azure subscription
+    # Log in to Azure subscription
     - name: Login to Azure
       run: |
         az login \
@@ -49,7 +45,18 @@ jobs:
         TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
         SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
 
-    # Generates an execution plan for Terraform
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: |
+        ACCESS_KEY=$(az storage account keys list \
+          --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
+          --query "[0].value" | tr -d '"')
+        
+        terraform init -backend-config="access_key=${ACCESS_KEY}"
+      env:
+        STORAGE_ACCOUNT_NAME: stterraformwozorio
+
+    # Generate an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -var 'admin_password=${{ secrets.ADMIN_PASSWORD }}'
       env:
