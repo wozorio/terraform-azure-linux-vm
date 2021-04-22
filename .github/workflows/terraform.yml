@@ -68,6 +68,7 @@ jobs:
     name: Terraform Apply
     runs-on: ubuntu-latest
     environment: playground
+    needs: terraform_plan
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
