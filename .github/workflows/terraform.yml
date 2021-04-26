@@ -25,7 +25,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
-    # Checks that all Terraform configuration files adhere to a canonical format
+    # Check that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
 
@@ -34,15 +34,11 @@ jobs:
       run: |
         az login \
           --service-principal \
-          --username ${{ env.SERVICE_PRINCIPAL_ID }} \
+          --username ${{ secrets.SERVICE_PRINCIPAL_ID }} \
           --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
-          --tenant ${{ env.TENANT_ID }}
-          
-          az account set -s ${{ env.SUBSCRIPTION_ID }}
-      env:
-        SERVICE_PRINCIPAL_ID: d44ee249-c468-475e-9e92-1720b68361ea
-        TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
-        SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
+          --tenant ${{ secrets.TENANT_ID }}
+
+          az account set -s ${{ secrets.SUBSCRIPTION_ID }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -59,10 +55,10 @@ jobs:
     - name: Terraform Plan
       run: terraform plan -var 'admin_password=${{ secrets.ADMIN_PASSWORD }}'
       env:
-        ARM_SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
-        ARM_CLIENT_ID: d44ee249-c468-475e-9e92-1720b68361ea
+        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+        ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
-        ARM_TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
 
   terraform_apply:
     name: Terraform Apply
@@ -84,7 +80,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
 
-    # Checks that all Terraform configuration files adhere to a canonical format
+    # Check that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
 
@@ -93,15 +89,11 @@ jobs:
       run: |
         az login \
           --service-principal \
-          --username ${{ env.SERVICE_PRINCIPAL_ID }} \
+          --username ${{ secrets.SERVICE_PRINCIPAL_ID }} \
           --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
-          --tenant ${{ env.TENANT_ID }}
-          
-          az account set -s ${{ env.SUBSCRIPTION_ID }}
-      env:
-        SERVICE_PRINCIPAL_ID: d44ee249-c468-475e-9e92-1720b68361ea
-        TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
-        SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
+          --tenant ${{ secrets.TENANT_ID }}
+
+          az account set -s ${{ secrets.SUBSCRIPTION_ID }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
@@ -118,7 +110,7 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve -var 'admin_password=${{ secrets.ADMIN_PASSWORD }}'
       env:
-        ARM_SUBSCRIPTION_ID: ba8893c8-1e1c-4b55-85e1-b4d264b94274
-        ARM_CLIENT_ID: d44ee249-c468-475e-9e92-1720b68361ea
+        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+        ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
         ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
-        ARM_TENANT_ID: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
