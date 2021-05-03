@@ -51,3 +51,11 @@ module "linux_vm_ubuntu" {
   admin_password        = var.admin_password
   network_interface_ids = [module.nic_ubuntu.id]
 }
+
+module "pip_ubuntu" {
+  source              = "./modules/public_ip/"
+  name                = "pip-ubuntu"
+  resource_group_name = module.linux_vm_ubuntu.resource_group_name
+  domain_name_label   = module.linux_vm_ubuntu.name
+  location            = module.linux_vm_ubuntu.location
+}
