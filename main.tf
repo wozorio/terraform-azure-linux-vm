@@ -35,9 +35,9 @@ module "snet_vms" {
 module "pip_ubuntu" {
   source              = "./modules/public_ip/"
   name                = "pip-ubuntu"
-  resource_group_name = module.snet_vms.resource_group_name
   domain_name_label   = "vm-ubuntu"
-  location            = module.vnet_class_a.location
+  resource_group_name = module.rg_lab.name
+  location            = module.rg_lab.location
 }
 
 module "nic_ubuntu" {
