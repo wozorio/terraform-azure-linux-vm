@@ -32,6 +32,14 @@ module "snet_vms" {
   address_prefixes     = ["10.0.0.0/24"]
 }
 
+module "pip_ubuntu" {
+  source              = "./modules/public_ip/"
+  name                = "pip-ubuntu"
+  resource_group_name = module.snet_vms.resource_group_name
+  domain_name_label   = "vm-ubuntu"
+  location            = module.vnet_class_a.location
+}
+
 module "nic_ubuntu" {
   source                     = "./modules/network_interface/"
   name                       = "nic-ubuntu"
@@ -39,6 +47,7 @@ module "nic_ubuntu" {
   resource_group_name        = module.snet_vms.resource_group_name
   ip_configuration_name      = "private"
   ip_configuration_subnet_id = module.snet_vms.id
+  public_ip_address_id       = module.pip_ubuntu.id
 }
 
 module "linux_vm_ubuntu" {
@@ -50,12 +59,4 @@ module "linux_vm_ubuntu" {
   admin_username        = "wozorio"
   admin_password        = var.admin_password
   network_interface_ids = [module.nic_ubuntu.id]
-}
-
-module "pip_ubuntu" {
-  source              = "./modules/public_ip/"
-  name                = "pip-ubuntu"
-  resource_group_name = module.linux_vm_ubuntu.resource_group_name
-  domain_name_label   = module.linux_vm_ubuntu.name
-  location            = module.linux_vm_ubuntu.location
 }

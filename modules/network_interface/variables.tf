@@ -34,3 +34,9 @@ variable "ip_configuration_private_ip_address_allocation" {
   type        = string
   default     = "Dynamic"
 }
+
+variable "public_ip_address_id" {
+  description = "Reference to a Public IP Address to associate with this NIC"
+  type        = string
+  default     = null
+}
