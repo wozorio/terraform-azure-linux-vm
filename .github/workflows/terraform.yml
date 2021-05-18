@@ -21,24 +21,22 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Install the latest version of Terraform CLI
+    # Install the latest version of Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15.3
 
     # Check that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
-
-    - name: Set environment variables
-      run: |
-        echo "SERVICE_PRINCIPAL_ID=${{ secrets.SERVICE_PRINCIPAL_ID }}" >> GITHUB_ENV
     
     # Log in to Azure subscription
     - name: Login to Azure
       run: |
         az login \
           --service-principal \
-          --username ${{ env.SERVICE_PRINCIPAL_ID }} \
+          --username ${{ secrets.SERVICE_PRINCIPAL_ID }} \
           --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
           --tenant ${{ secrets.TENANT_ID }}
 
@@ -80,9 +78,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Install the latest version of Terraform CLI
+    # Install the latest version of Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15.3
 
     # Check that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
