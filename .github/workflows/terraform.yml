@@ -29,12 +29,16 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
 
+    - name: Set environment variables
+      run: |
+        echo "SERVICE_PRINCIPAL_ID=${{ secrets.SERVICE_PRINCIPAL_ID }}" >> GITHUB_ENV
+    
     # Log in to Azure subscription
     - name: Login to Azure
       run: |
         az login \
           --service-principal \
-          --username ${{ secrets.SERVICE_PRINCIPAL_ID }} \
+          --username ${{ env.SERVICE_PRINCIPAL_ID }} \
           --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
           --tenant ${{ secrets.TENANT_ID }}
 
