@@ -1,12 +1,15 @@
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                            = var.name
-  resource_group_name             = var.resource_group_name
-  location                        = var.location
-  size                            = var.size
-  disable_password_authentication = var.disable_password_authentication
-  admin_username                  = var.admin_username
-  admin_password                  = var.admin_password
-  network_interface_ids           = var.network_interface_ids
+  name                  = var.name
+  resource_group_name   = var.resource_group_name
+  location              = var.location
+  size                  = var.size
+  admin_username        = var.admin_username
+  network_interface_ids = var.network_interface_ids
+
+  admin_ssh_key {
+    username   = var.admin_username
+    public_key = file("${path.module}/files/id_rsa.pub")
+  }
 
   os_disk {
     caching              = var.os_disk_caching

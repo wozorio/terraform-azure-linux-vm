@@ -18,20 +18,8 @@ variable "size" {
   type        = string
 }
 
-variable "disable_password_authentication" {
-  description = "Should Password Authentication be disabled on this Virtual Machine"
-  type        = bool
-  default     = false
-}
-
 variable "admin_username" {
   description = "The username of the local administrator used for the Virtual Machine"
-  type        = string
-  sensitive   = true
-}
-
-variable "admin_password" {
-  description = "The Password which should be used for the local-administrator on this Virtual Machine"
   type        = string
   sensitive   = true
 }

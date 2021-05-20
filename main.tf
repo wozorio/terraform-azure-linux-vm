@@ -41,13 +41,23 @@ module "pip_ubuntu" {
 }
 
 module "nic_ubuntu" {
-  source                     = "./modules/network_interface/"
-  name                       = "nic-ubuntu"
-  location                   = module.vnet_class_a.location
-  resource_group_name        = module.snet_vms.resource_group_name
-  ip_configuration_name      = "private"
-  ip_configuration_subnet_id = module.snet_vms.id
-  public_ip_address_id       = module.pip_ubuntu.id
+  source                                         = "./modules/network_interface/"
+  name                                           = "nic-ubuntu"
+  location                                       = module.vnet_class_a.location
+  resource_group_name                            = module.snet_vms.resource_group_name
+  ip_configuration_name                          = "ip-config"
+  ip_configuration_subnet_id                     = module.snet_vms.id
+  ip_configuration_private_ip_address_allocation = "Static"
+  ip_configuration_private_ip_address            = "10.0.0.10"
+  ip_configuration_public_ip_address_id          = module.pip_ubuntu.id
+}
+
+module "data_disk_ubuntu" {
+  source              = "./modules/managed_disk/"
+  name                = "data-disk-ubuntu"
+  location            = module.rg_lab.location
+  resource_group_name = module.rg_lab.name
+  disk_size_gb        = 5
 }
 
 module "linux_vm_ubuntu" {
@@ -57,6 +67,50 @@ module "linux_vm_ubuntu" {
   location              = module.nic_ubuntu.location
   size                  = "Standard_B2s"
   admin_username        = "wozorio"
-  admin_password        = var.admin_password
   network_interface_ids = [module.nic_ubuntu.id]
+}
+
+module "vm_data_disk_attachment_ubuntu" {
+  source             = "./modules/virtual_machine_data_disk_attachment/"
+  managed_disk_id    = module.data_disk_ubuntu.id
+  virtual_machine_id = module.linux_vm_ubuntu.id
+  lun                = 10
+}
+
+module "nsg_vm_ubuntu" {
+  source              = "./modules/network_security_group/"
+  name                = "nsg-ubuntu"
+  location            = module.rg_lab.location
+  resource_group_name = module.rg_lab.name
+
+  security_rules = [
+    {
+      name                       = "Allow-HTTP-From-Internet-To-VM"
+      priority                   = 100
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = 80
+      source_address_prefix      = "Internet"
+      destination_address_prefix = "10.0.0.10/32"
+    },
+    {
+      name                       = "Allow-SSH-From-Internet-To-VM"
+      priority                   = 200
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = 22
+      source_address_prefix      = "Internet"
+      destination_address_prefix = "10.0.0.10/32"
+    }
+  ]
+}
+
+module "nsg_association_vm_ubuntu" {
+  source                    = "./modules/network_interface_security_group_association/"
+  network_interface_id      = module.nic_ubuntu.id
+  network_security_group_id = module.nsg_vm_ubuntu.id
 }

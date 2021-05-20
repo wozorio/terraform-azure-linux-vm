@@ -23,7 +23,7 @@ variable "ip_configuration_subnet_id" {
   type        = string
 }
 
-variable "private_ip_address_version" {
+variable "ip_configuration_private_ip_address_version" {
   description = "The IP Version to use. Possible values are IPv4 or IPv6"
   type        = string
   default     = "IPv4"
@@ -35,7 +35,13 @@ variable "ip_configuration_private_ip_address_allocation" {
   default     = "Dynamic"
 }
 
-variable "public_ip_address_id" {
+variable "ip_configuration_private_ip_address" {
+  description = "The Static IP Address which should be used"
+  type        = string
+  default     = null
+}
+
+variable "ip_configuration_public_ip_address_id" {
   description = "Reference to a Public IP Address to associate with this NIC"
   type        = string
   default     = null
