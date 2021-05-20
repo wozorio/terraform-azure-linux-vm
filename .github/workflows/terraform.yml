@@ -1,9 +1,9 @@
-name: 'terraform'
+name: "terraform"
 
 on:
   push:
     branches:
-    - master
+      - master
   pull_request:
 
 jobs:
@@ -17,50 +17,50 @@ jobs:
         shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v2
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    # Install the latest version of Terraform
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 0.15.3
+      # Install the latest version of Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.15.3
 
-    # Check that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
-    
-    # Log in to Azure subscription
-    - name: Login to Azure
-      run: |
-        az login \
-          --service-principal \
-          --username ${{ secrets.SERVICE_PRINCIPAL_ID }} \
-          --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
-          --tenant ${{ secrets.TENANT_ID }}
+      # Check that all Terraform configuration files adhere to a canonical format
+      - name: Terraform Format
+        run: terraform fmt -check
 
-          az account set -s ${{ secrets.SUBSCRIPTION_ID }}
+      # Log in to Azure subscription
+      - name: Login to Azure
+        run: |
+          az login \
+            --service-principal \
+            --username ${{ secrets.SERVICE_PRINCIPAL_ID }} \
+            --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
+            --tenant ${{ secrets.TENANT_ID }}
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: |
-        ACCESS_KEY=$(az storage account keys list \
-          --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
-          --query "[0].value" | tr -d '"')
-        
-        terraform init -backend-config="access_key=${ACCESS_KEY}"
-      env:
-        STORAGE_ACCOUNT_NAME: stterraformwozorio
+            az account set -s ${{ secrets.SUBSCRIPTION_ID }}
 
-    # Generate an execution plan for Terraform
-    - name: Terraform Plan
-      run: terraform plan
-      env:
-        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-        ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: |
+          ACCESS_KEY=$(az storage account keys list \
+            --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
+            --query "[0].value" | tr -d '"')
+
+          terraform init -backend-config="access_key=${ACCESS_KEY}"
+        env:
+          STORAGE_ACCOUNT_NAME: stterraformwozorio
+
+      # Generate an execution plan for Terraform
+      - name: Terraform Plan
+        run: terraform plan
+        env:
+          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
+          ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
 
   terraform_apply:
     name: Terraform Apply
@@ -74,47 +74,47 @@ jobs:
         shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v2
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    # Install the latest version of Terraform
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 0.15.3
+      # Install the latest version of Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.15.3
 
-    # Check that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
+      # Check that all Terraform configuration files adhere to a canonical format
+      - name: Terraform Format
+        run: terraform fmt -check
 
-    # Log in to Azure subscription
-    - name: Login to Azure
-      run: |
-        az login \
-          --service-principal \
-          --username ${{ secrets.SERVICE_PRINCIPAL_ID }} \
-          --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
-          --tenant ${{ secrets.TENANT_ID }}
+      # Log in to Azure subscription
+      - name: Login to Azure
+        run: |
+          az login \
+            --service-principal \
+            --username ${{ secrets.SERVICE_PRINCIPAL_ID }} \
+            --password ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
+            --tenant ${{ secrets.TENANT_ID }}
 
-          az account set -s ${{ secrets.SUBSCRIPTION_ID }}
+            az account set -s ${{ secrets.SUBSCRIPTION_ID }}
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: |
-        ACCESS_KEY=$(az storage account keys list \
-          --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
-          --query "[0].value" | tr -d '"')
-        
-        terraform init -backend-config="access_key=${ACCESS_KEY}"
-      env:
-        STORAGE_ACCOUNT_NAME: stterraformwozorio
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: |
+          ACCESS_KEY=$(az storage account keys list \
+            --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
+            --query "[0].value" | tr -d '"')
 
-    # On push to master, build or change infrastructure according to Terraform configuration files
-    - name: Terraform Apply
-      run: terraform apply -auto-approve
-      env:
-        ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-        ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
-        ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+          terraform init -backend-config="access_key=${ACCESS_KEY}"
+        env:
+          STORAGE_ACCOUNT_NAME: stterraformwozorio
+
+      # On push to master, build or change infrastructure according to Terraform configuration files
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        env:
+          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
+          ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
