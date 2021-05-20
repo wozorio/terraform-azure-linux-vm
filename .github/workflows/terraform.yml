@@ -21,14 +21,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Install the latest version of Terraform CLI
+    # Install the latest version of Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15.3
 
     # Check that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
-
+    
     # Log in to Azure subscription
     - name: Login to Azure
       run: |
@@ -76,9 +78,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # Install the latest version of Terraform CLI
+    # Install the latest version of Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15.3
 
     # Check that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
