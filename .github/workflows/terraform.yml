@@ -55,7 +55,7 @@ jobs:
 
     # Generate an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -var 'admin_password=${{ secrets.ADMIN_PASSWORD }}'
+      run: terraform plan
       env:
         ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
         ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
@@ -112,7 +112,7 @@ jobs:
 
     # On push to master, build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
-      run: terraform apply -auto-approve -var 'admin_password=${{ secrets.ADMIN_PASSWORD }}'
+      run: terraform apply -auto-approve
       env:
         ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
         ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
