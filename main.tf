@@ -52,14 +52,6 @@ module "nic_ubuntu" {
   ip_configuration_public_ip_address_id          = module.pip_ubuntu.id
 }
 
-module "data_disk_ubuntu" {
-  source              = "./modules/managed_disk/"
-  name                = "data-disk-ubuntu"
-  location            = module.rg_lab.location
-  resource_group_name = module.rg_lab.name
-  disk_size_gb        = 5
-}
-
 module "linux_vm_ubuntu" {
   source                = "./modules/linux_virtual_machine/"
   name                  = "vm-ubuntu"
@@ -68,13 +60,6 @@ module "linux_vm_ubuntu" {
   size                  = "Standard_B2s"
   admin_username        = "wozorio"
   network_interface_ids = [module.nic_ubuntu.id]
-}
-
-module "vm_data_disk_attachment_ubuntu" {
-  source             = "./modules/virtual_machine_data_disk_attachment/"
-  managed_disk_id    = module.data_disk_ubuntu.id
-  virtual_machine_id = module.linux_vm_ubuntu.id
-  lun                = 10
 }
 
 module "nsg_vm_ubuntu" {
