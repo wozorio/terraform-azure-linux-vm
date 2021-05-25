@@ -10,63 +10,63 @@ terraform {
   }
 }
 
-module "resource_group" {
+module "rg_playground" {
   source   = "./modules/resource_group/"
   name     = "rg-playground"
   location = var.location
 }
 
-module "virtual_network" {
+module "vnet_class_a" {
   source              = "./modules/virtual_network/"
-  name                = "vnet-playground"
+  name                = "vnet"
   address_space       = ["10.0.0.0/8"]
-  resource_group_name = module.resource_group.name
-  location            = module.resource_group.location
+  resource_group_name = module.rg_playground.name
+  location            = module.rg_playground.location
 }
 
-module "subnet" {
+module "snet_vms" {
   source               = "./modules/subnet/"
-  name                 = "snet-playground"
-  resource_group_name  = module.virtual_network.resource_group_name
-  virtual_network_name = module.virtual_network.name
+  name                 = "snet-vms"
+  resource_group_name  = module.vnet_class_a.resource_group_name
+  virtual_network_name = module.vnet_class_a.name
   address_prefixes     = ["10.0.0.0/24"]
 }
 
-module "public_ip" {
+module "pip_ubuntu" {
   source              = "./modules/public_ip/"
   name                = "pip-ubuntu"
-  domain_name_label   = "ubuntu-vm"
-  resource_group_name = module.resource_group.name
-  location            = module.resource_group.location
+  domain_name_label   = "vm-ubuntu"
+  resource_group_name = module.rg_playground.name
+  location            = module.rg_playground.location
 }
 
-module "network_interface" {
+module "nic_ubuntu" {
   source                                         = "./modules/network_interface/"
   name                                           = "nic-ubuntu"
-  location                                       = module.virtual_network.location
-  resource_group_name                            = module.subnet.resource_group_name
+  location                                       = module.vnet_class_a.location
+  resource_group_name                            = module.snet_vms.resource_group_name
   ip_configuration_name                          = "ipconfig"
-  ip_configuration_subnet_id                     = module.subnet.id
+  ip_configuration_subnet_id                     = module.snet_vms.id
   ip_configuration_private_ip_address_allocation = "Static"
   ip_configuration_private_ip_address            = "10.0.0.10"
-  ip_configuration_public_ip_address_id          = module.public_ip.id
+  ip_configuration_public_ip_address_id          = module.pip_ubuntu.id
 }
 
-module "ubuntu_vm" {
+module "linux_vm_ubuntu" {
   source                = "./modules/linux_virtual_machine/"
   name                  = "vm-ubuntu"
-  resource_group_name   = module.network_interface.resource_group_name
-  location              = module.network_interface.location
+  resource_group_name   = module.nic_ubuntu.resource_group_name
+  location              = module.nic_ubuntu.location
   size                  = "Standard_B2s"
   admin_username        = "wozorio"
-  network_interface_ids = [module.network_interface.id]
+  network_interface_ids = [module.nic_ubuntu.id]
 }
 
-module "network_security_group" {
+module "nsg_vm_ubuntu" {
   source              = "./modules/network_security_group/"
   name                = "nsg-ubuntu"
-  location            = module.resource_group.location
-  resource_group_name = module.resource_group.name
+  location            = module.rg_playground.location
+  resource_group_name = module.rg_playground.name
 
   security_rules = [
     {
@@ -94,8 +94,8 @@ module "network_security_group" {
   ]
 }
 
-module "network_security_group_association" {
+module "nsg_association_vm_ubuntu" {
   source                    = "./modules/network_interface_security_group_association/"
-  network_interface_id      = module.network_interface.id
-  network_security_group_id = module.network_security_group.id
+  network_interface_id      = module.nic_ubuntu.id
+  network_security_group_id = module.nsg_vm_ubuntu.id
 }
