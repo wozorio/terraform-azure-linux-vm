@@ -110,7 +110,7 @@ jobs:
         env:
           STORAGE_ACCOUNT_NAME: stterraformwozorio
 
-      # On push to master, build or change infrastructure according to Terraform configuration files
+      # Build or change infrastructure according to Terraform configuration files
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
