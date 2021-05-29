@@ -1,5 +1,5 @@
 # Terraform Azure
 
-![terraform](https://github.com/wozorio/terraform-azure/actions/workflows/terraform.yml/badge.svg)
+[![terraform Actions Status](https://github.com/wozorio/terraform-azure/workflows/terraform/badge.svg)](https://github.com/wozorio/terraform-azure/actions)
 
 Terraform code for deploying a Ubuntu Linux VM in Azure with GitHub Actions.
