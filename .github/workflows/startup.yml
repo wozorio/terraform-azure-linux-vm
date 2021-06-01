@@ -2,8 +2,7 @@ name: "startup"
 
 on:
   schedule:
-    # Run evey day at 11:00 PM UTC
-    - cron: "0 4 * * *"
+    - cron: '0 4 * * *'
 
 jobs:
   startup_vms:
