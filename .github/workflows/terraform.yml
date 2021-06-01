@@ -70,8 +70,6 @@ jobs:
     steps:
       - name: Checkout terraform-azure repo
         uses: actions/checkout@v2
-        with:
-          path: terraform-azure
 
       - name: Checkout bash-scripts repo
         uses: actions/checkout@v2
