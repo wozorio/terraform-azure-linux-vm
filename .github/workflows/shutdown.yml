@@ -1,0 +1,33 @@
+name: "shutdown"
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  shutdown_vm:
+    name: Shutdown all virtual machines
+    runs-on: ubuntu-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Checkout the bash-scripts repo
+        uses: actions/checkout@v2
+        with:
+          repository: wozorio/bash-scripts
+  
+      - name: Login to Azure
+        run: |
+          ./bash-scripts/azure-cli-login.sh ${{ secrets.SUBSCRIPTION_ID }} ${{ secrets.SERVICE_PRINCIPAL_ID }} ${{ secrets.SERVICE_PRINCIPAL_SECRET }} ${{ secrets.TENANT_ID }}
+
+      - name: Shutdown all virtual machines
+        run: |
+          ./bash-scripts/azure-vm-batch-shutdown.sh
