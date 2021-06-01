@@ -1,9 +1,9 @@
 name: "shutdown"
 
 on:
-  push:
-    branches:
-      - master
+  schedule:
+    # Run evey day at 11:00 PM UTC
+    - cron: "0 23 * * *"
 
 jobs:
   shutdown_vms:
