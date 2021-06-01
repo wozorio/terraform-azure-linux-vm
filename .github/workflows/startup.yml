@@ -27,4 +27,4 @@ jobs:
 
       - name: Start all virtual machines
         run: |
-          ./azure-vm-batch-startup.sh
+          ./azure-vm-batch-start.sh
