@@ -24,6 +24,9 @@ jobs:
         with:
           repository: wozorio/bash-scripts
   
+      - name: ls
+        run: ls -l
+      
       - name: Login to Azure
         run: |
           ./bash-scripts/azure-cli-login.sh ${{ secrets.SUBSCRIPTION_ID }} ${{ secrets.SERVICE_PRINCIPAL_ID }} ${{ secrets.SERVICE_PRINCIPAL_SECRET }} ${{ secrets.TENANT_ID }}
