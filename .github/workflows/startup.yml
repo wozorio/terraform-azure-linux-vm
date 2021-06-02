@@ -2,7 +2,7 @@ name: "startup"
 
 on:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: "0 4 * * *"
 
 jobs:
   startup_vms:
