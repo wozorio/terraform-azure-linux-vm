@@ -2,7 +2,6 @@ name: "startup"
 
 on:
   schedule:
-    # Run evey day at 11:00 PM UTC
     - cron: "0 4 * * *"
 
 # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
