@@ -11,6 +11,9 @@ defaults:
   run:
     shell: bash
 
+env:
+  TERRAFORM_VERSION: 0.15.3
+
 jobs:
   terraform_plan:
     name: Terraform Plan
@@ -29,7 +32,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: 0.15.3
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
 
       - name: Ensure Terraform code is properly formatted
         run: terraform fmt --recursive -check
