@@ -16,7 +16,7 @@ module "rg_playground" {
   location = var.location
 }
 
-module "vnet_class_a" {
+module "vnet" {
   source              = "./modules/virtual_network/"
   name                = "vnet"
   address_space       = ["10.0.0.0/8"]
@@ -24,11 +24,11 @@ module "vnet_class_a" {
   location            = module.rg_playground.location
 }
 
-module "snet_vms" {
+module "snet" {
   source               = "./modules/subnet/"
-  name                 = "snet-vms"
-  resource_group_name  = module.vnet_class_a.resource_group_name
-  virtual_network_name = module.vnet_class_a.name
+  name                 = "snet"
+  resource_group_name  = module.vnet.resource_group_name
+  virtual_network_name = module.vnet.name
   address_prefixes     = ["10.0.0.0/24"]
 }
 
@@ -43,16 +43,16 @@ module "pip_ubuntu" {
 module "nic_ubuntu" {
   source                                         = "./modules/network_interface/"
   name                                           = "nic-ubuntu"
-  location                                       = module.vnet_class_a.location
-  resource_group_name                            = module.snet_vms.resource_group_name
+  location                                       = module.vnet.location
+  resource_group_name                            = module.snet.resource_group_name
   ip_configuration_name                          = "ipconfig"
-  ip_configuration_subnet_id                     = module.snet_vms.id
+  ip_configuration_subnet_id                     = module.snet.id
   ip_configuration_private_ip_address_allocation = "Static"
   ip_configuration_private_ip_address            = "10.0.0.10"
   ip_configuration_public_ip_address_id          = module.pip_ubuntu.id
 }
 
-module "linux_vm_ubuntu" {
+module "vm_ubuntu" {
   source                = "./modules/linux_virtual_machine/"
   name                  = "vm-ubuntu"
   resource_group_name   = module.nic_ubuntu.resource_group_name
