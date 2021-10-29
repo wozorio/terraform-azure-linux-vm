@@ -33,6 +33,7 @@ jobs:
           directory: .
           framework: terraform
           check: CKV_AZURE*
+          soft_fail: true # disable it to return an error code if there are failed checks
 
   terraform_plan:
     name: Terraform Plan
