@@ -114,7 +114,7 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: tf.plan
+          name: tfplan
 
       - name: Terraform Init
         run: |
