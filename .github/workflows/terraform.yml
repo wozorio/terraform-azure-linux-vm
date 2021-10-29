@@ -19,6 +19,8 @@ jobs:
     name: Checkov
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
@@ -28,7 +30,9 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
+          directory: .
           framework: terraform
+          check: CKV_AZURE*
 
   terraform_plan:
     name: Terraform Plan
@@ -36,8 +40,7 @@ jobs:
     needs: checkov
 
     steps:
-      - name: Checkout terraform-azure repo
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Checkout bash-scripts repo
         uses: actions/checkout@v2
@@ -86,8 +89,7 @@ jobs:
     needs: terraform_plan
 
     steps:
-      - name: Checkout terraform-azure repo
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Checkout bash-scripts repo
         uses: actions/checkout@v2
