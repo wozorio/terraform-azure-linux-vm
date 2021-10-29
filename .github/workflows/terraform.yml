@@ -84,7 +84,8 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform plan -out tf.plan
-          terraform show -json tf.plan  > tf.json 
+          terraform show -json tf.plan > tf.json 
+          cat tf.json
           checkov -f tf.json
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
