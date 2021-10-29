@@ -75,7 +75,10 @@ jobs:
           STORAGE_ACCOUNT_NAME: stterraformwozorio
 
       - name: Terraform Plan
-        run: terraform plan
+        run: |
+          terraform plan -out tf.plan
+          terraform show -json tf.plan  > tf_plan.json
+          checkov -f tf_plan.json
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
