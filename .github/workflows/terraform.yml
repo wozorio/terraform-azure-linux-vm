@@ -28,12 +28,13 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: .
+          directory: ./modules/
           framework: terraform
 
   terraform_plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
+    needs: checkov
 
     steps:
       - name: Checkout terraform-azure repo
