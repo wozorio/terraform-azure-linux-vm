@@ -52,14 +52,6 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Test with Checkov
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: .
-          framework: terraform
-          check: CKV_AZURE*
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -89,7 +81,7 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform plan -out tf.plan
-          terraform show -json tf.plan  > tf_plan.json
+          terraform show -json tf.plan > tf_plan.json
           checkov -f tf_plan.json
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
