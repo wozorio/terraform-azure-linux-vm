@@ -47,14 +47,6 @@ jobs:
           repository: wozorio/bash-scripts
           path: bash-scripts
 
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-
-      - name: Install Checkov
-        run: pip3 install checkov
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -82,16 +74,17 @@ jobs:
           STORAGE_ACCOUNT_NAME: stterraformwozorio
 
       - name: Terraform Plan
-        run: |
-          terraform plan -out tf.plan
-          terraform show -json tf.plan | jq '.' > tf.json
-          cat tf.json
-          checkov -f tf.json
+        run: terraform plan -out=tfplan -input=false
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
           ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
           ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: tfplan
+          path: tfplan
 
   terraform_apply:
     name: Terraform Apply
@@ -119,6 +112,10 @@ jobs:
             ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
             ${{ secrets.TENANT_ID }}
 
+      - uses: actions/download-artifact@v2
+        with:
+          name: tf.plan
+
       - name: Terraform Init
         run: |
           ACCESS_KEY=$(az storage account keys list \
@@ -130,7 +127,7 @@ jobs:
           STORAGE_ACCOUNT_NAME: stterraformwozorio
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -input=false tfplan -auto-approve
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
