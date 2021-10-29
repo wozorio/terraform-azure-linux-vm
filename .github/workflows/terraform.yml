@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Test with Checkov
+      - name: Run Checkov static code analysis
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
