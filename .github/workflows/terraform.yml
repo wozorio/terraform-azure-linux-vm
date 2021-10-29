@@ -13,6 +13,7 @@ defaults:
 
 env:
   TERRAFORM_VERSION: 1.0.9
+  PYTHON_VERSION: 3.8
 
 jobs:
   checkov:
@@ -21,10 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python 3.8
+      - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.8
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Test with Checkov
         id: checkov
@@ -78,7 +79,6 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform plan -out=tfplan -input=false
-          terraform show -json tfplan | jq '.' > tfplan.json 
         env:
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
