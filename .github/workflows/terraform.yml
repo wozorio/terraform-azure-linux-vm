@@ -103,6 +103,11 @@ jobs:
           repository: wozorio/bash-scripts
           path: bash-scripts
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
       - name: Ensure Terraform code is properly formatted
         run: terraform fmt --recursive -check
 
