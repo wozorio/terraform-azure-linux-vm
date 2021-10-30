@@ -137,10 +137,6 @@ jobs:
             ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
             ${{ secrets.TENANT_ID }}
 
-      - uses: actions/download-artifact@v2
-        with:
-          name: tfplan
-
       - name: Terraform Init
         run: |
           ACCESS_KEY=$(az storage account keys list \
@@ -150,6 +146,10 @@ jobs:
           terraform init -backend-config="access_key=${ACCESS_KEY}"
         env:
           STORAGE_ACCOUNT_NAME: stterraformwozorio
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: tfplan
 
       - name: Terraform Apply
         run: terraform apply -input=false -auto-approve tfplan
