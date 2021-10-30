@@ -99,7 +99,7 @@ jobs:
       - run: pip3 install checkov
  
       - run: |
-          terraform show -json tfplan > tf.json
+          terraform show -json tfplan | jq '.' > tf.json
           checkov -f tf.json
 
   terraform_apply:
