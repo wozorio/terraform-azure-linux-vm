@@ -92,21 +92,10 @@ jobs:
           name: tfplan
           path: tfplan
 
-      - name: Set up Python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Set up Checkov
-        run: pip3 install checkov
- 
       - name: Scan Terraform Plan with Checkov
         run: |
           terraform show -json tfplan | jq '.' > tf.json
-          # checkov -f tf.json --soft-fail
-          ls -l
-          echo "${PWD}"
-          docker run --tty --volume "${PWD}":/tf bridgecrew/checkov:latest -f /tf/tf.json
+          docker run --tty --volume "${PWD}":/tf bridgecrew/checkov:latest -f /tf/tf.json --soft-fail
 
   terraform_apply:
     name: Terraform Apply
