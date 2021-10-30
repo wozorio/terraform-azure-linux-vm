@@ -96,7 +96,7 @@ jobs:
         run: |
           terraform show -json tfplan | jq '.' > tfplan.json
           docker run \
-            --tty
+            --tty \
             --volume "$(pwd)":/tf bridgecrew/checkov:latest \
             -f /tf/tfplan.json \
             --framework terraform_plan \
