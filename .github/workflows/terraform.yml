@@ -54,6 +54,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: false
 
       - name: Ensure Terraform code is properly formatted
         run: terraform fmt --recursive -check
@@ -90,6 +91,17 @@ jobs:
           name: tfplan
           path: tfplan
 
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - run: pip3 install checkov
+ 
+      - run: |
+          terraform show -json tfplan > tf.json
+          checkov -f tf.json
+
   terraform_apply:
     name: Terraform Apply
     runs-on: ubuntu-latest
@@ -109,6 +121,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: false
 
       - name: Ensure Terraform code is properly formatted
         run: terraform fmt --recursive -check
