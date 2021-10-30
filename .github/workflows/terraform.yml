@@ -94,8 +94,8 @@ jobs:
 
       - name: Scan Terraform Plan with Checkov
         run: |
-          terraform show -json tfplan | jq '.' > tf.json
-          docker run --tty --volume "${PWD}":/tf bridgecrew/checkov:latest -f /tf/tf.json --soft-fail
+          terraform show -json tfplan | jq '.' > tfplan.json
+          docker run --tty --volume "$(pwd)":/tf bridgecrew/checkov:latest -f /tf/tfplan.json --soft-fail
 
   terraform_apply:
     name: Terraform Apply
