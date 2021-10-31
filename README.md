@@ -1,6 +1,7 @@
 # Terraform Azure
 
 [![GitHub](https://img.shields.io/github/license/wozorio/terraform-azure)](https://github.com/wozorio/terraform-azure/blob/master/LICENSE)
+[![CI](https://github.com/wozorio/terraform-azure/actions/workflows/ci.yml/badge.svg)](https://github.com/wozorio/terraform-azure/actions/workflows/ci.yml)
 [![terraform Actions Status](https://github.com/wozorio/terraform-azure/workflows/terraform/badge.svg)](https://github.com/wozorio/terraform-azure/actions)
 
 Terraform code for deploying a Ubuntu Linux VM in Azure with GitHub Actions.
