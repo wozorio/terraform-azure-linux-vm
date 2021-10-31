@@ -60,7 +60,6 @@ jobs:
 
       - name: Terraform Validate
         run: |
-          terraform fmt --recursive
           terraform validate
 
       - name: Set up Python
