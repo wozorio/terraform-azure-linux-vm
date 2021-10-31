@@ -20,6 +20,9 @@ jobs:
   validate:
     name: Terraform Validate
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        terraform_dirs: [., .terraform]
     steps:
       - uses: actions/checkout@v2
 
@@ -27,14 +30,6 @@ jobs:
         uses: actions/setup-python@v2.2.2
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Verify main Terraform code with Checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: .
-          framework: terraform
-          check: CKV_AZURE*
-          soft_fail: true # disable it to return an error code if there are failed checks
 
       - name: Checkout bash-scripts repo
         uses: actions/checkout@v2
@@ -73,10 +68,10 @@ jobs:
         run: |
           terraform validate
 
-      - name: Verify Terraform modules with Checkov
+      - name: Verify Terraform code with Checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: .terraform
+          directory: ${{ matrix.terraform_dirs }}
           framework: terraform
           check: CKV_AZURE*
           soft_fail: true # disable it to return an error code if there are failed checks
