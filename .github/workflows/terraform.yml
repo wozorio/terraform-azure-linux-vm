@@ -95,10 +95,11 @@ jobs:
       - name: Scan Terraform Plan with Checkov
         run: |
           terraform show -json tfplan | jq '.' > tfplan.json
+          docker pull bridgecrew/checkov:latest
           docker run \
             --tty \
             --volume "$(pwd)":/tf bridgecrew/checkov:latest \
-            -f /tf/tfplan.json \
+            --file /tf/tfplan.json \
             --framework terraform_plan \
             --check CKV_AZURE* \
             --soft-fail
