@@ -36,9 +36,6 @@ jobs:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
 
-      - name: Ensure Terraform code is properly formatted
-        run: terraform fmt --recursive -check
-
       - name: Login to Azure
         run: |
           ./bash-scripts/azure-cli-login.sh \
@@ -103,9 +100,6 @@ jobs:
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
-
-      - name: Ensure Terraform code is properly formatted
-        run: terraform fmt --recursive -check
 
       - name: Login to Azure
         run: |
