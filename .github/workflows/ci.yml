@@ -1,4 +1,4 @@
-name: "ci-terraform"
+name: "CI"
 
 on:
   push:
@@ -20,9 +20,7 @@ jobs:
   validate:
     name: Terraform Validate
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        terraform_dirs: [., .terraform]
+
     steps:
       - uses: actions/checkout@v2
 
@@ -68,10 +66,18 @@ jobs:
         run: |
           terraform validate
 
-      - name: Verify Terraform code with Checkov
+      - name: Verify main Terraform code with Checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: ${{ matrix.terraform_dirs }}
+          directory: .
+          framework: terraform
+          check: CKV_AZURE*
+          soft_fail: true # disable it to return an error code if there are failed checks
+
+      - name: Verify external Terraform modules with Checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .terraform
           framework: terraform
           check: CKV_AZURE*
           soft_fail: true # disable it to return an error code if there are failed checks
