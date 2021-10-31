@@ -1,0 +1,38 @@
+name: "ci-terraform"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  TERRAFORM_VERSION: 1.0.9
+  TERRAFORM_WRAPPER: false # when enabled JSON output of Terraform Plan is not properly parsed
+  PYTHON_VERSION: 3.8
+
+jobs:
+  validate:
+    name: Terraform Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Run Checkov static code analysis
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          framework: terraform
+          check: CKV_AZURE*
+          soft_fail: true # disable it to return an error code if there are failed checks
