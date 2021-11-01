@@ -18,9 +18,6 @@ jobs:
   validate:
     name: Terraform Validate
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        terraform_dirs: [/tf, /tf/.terraform]
 
     steps:
       - uses: actions/checkout@v2
@@ -65,14 +62,18 @@ jobs:
         run: docker pull bridgecrew/checkov:latest
 
       - name: Scan Terraform main code with Checkov
+        env:
+          TERRAFORM_DIRS: /tf /tf/.terraform
         run: |
-          docker run \
+          for d in $TERRAFORM_DIRS; do 
+            docker run \
             --tty \
             --volume "$(pwd)":/tf bridgecrew/checkov:latest \
-            --directory ${{ matrix.terraform_dirs }} \
+            --directory $d \
             --framework terraform \
             --check CKV_AZURE* \
             --soft-fail
+          done
 
       - name: Scan external Terraform modules with Checkov
         run: |
