@@ -18,9 +18,9 @@ jobs:
   validate:
     name: Terraform Validate
     runs-on: ubuntu-latest
-  strategy:
-    matrix:
-      terraform_dirs: [/tf, /tf/.terraform]
+    strategy:
+      matrix:
+        terraform_dirs: [/tf, /tf/.terraform]
 
     steps:
       - uses: actions/checkout@v2
