@@ -18,6 +18,9 @@ jobs:
   validate:
     name: Terraform Validate
     runs-on: ubuntu-latest
+  strategy:
+    matrix:
+      terraform_dirs: [/tf, /tf/.terraform]
 
     steps:
       - uses: actions/checkout@v2
@@ -66,7 +69,7 @@ jobs:
           docker run \
             --tty \
             --volume "$(pwd)":/tf bridgecrew/checkov:latest \
-            --directory /tf \
+            --directory ${{ matrix.terraform_dirs }} \
             --framework terraform \
             --check CKV_AZURE* \
             --soft-fail
