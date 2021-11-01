@@ -63,15 +63,15 @@ jobs:
 
       - name: Scan Terraform code with Checkov
         env:
-          TERRAFORM_DIRS: /tf /tf/.terraform
+          TERRAFORM_DIRS: ("/tf" "/tf/.terraform")
         run: |
-          echo "Scanning directory ${dir}"
           for dir in ${{ env.TERRAFORM_DIRS }}; do 
+            echo "Scanning directory ${dir}"
             docker run \
-            --tty \
-            --volume "$(pwd)":/tf bridgecrew/checkov:latest \
-            --directory ${dir} \
-            --framework terraform \
-            --check CKV_AZURE* \
-            --soft-fail
+              --tty \
+              --volume "$(pwd)":/tf bridgecrew/checkov:latest \
+              --directory ${dir} \
+              --framework terraform \
+              --check CKV_AZURE* \
+              --soft-fail
           done
