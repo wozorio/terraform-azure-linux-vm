@@ -14,7 +14,6 @@ env:
   TERRAFORM_VERSION: 1.0.9
   TERRAFORM_WRAPPER: false # when enabled JSON output of Terraform Plan is not properly parsed
   PYTHON_VERSION: 3.8
-  CHECKOV_SOFT_FAIL: true # disable it to return an error code if there are failed checks
 
 jobs:
   validate:
@@ -58,26 +57,24 @@ jobs:
           STORAGE_ACCOUNT_NAME: stterraformwozorio
 
       - name: Terraform Validate
+        run: terraform validate
+
+      - name: Scan Terraform main code with Checkov
         run: |
-          terraform validate
-
-      - name: Set up Python
-        uses: actions/setup-python@v2.2.2
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: Scan main Terraform code with Checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: .
-          framework: terraform
-          check: CKV_AZURE*
-          soft_fail: ${{ env.CHECKOV_SOFT_FAIL }}
+          docker run \
+            --tty \
+            --volume "$(pwd)":/tf bridgecrew/checkov:latest \
+            --directory /tf \
+            --framework terraform \
+            --check CKV_AZURE* \
+            --soft-fail
 
       - name: Scan external Terraform modules with Checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: .terraform
-          framework: terraform
-          check: CKV_AZURE*
-          soft_fail: ${{ env.CHECKOV_SOFT_FAIL }}
+        run: |
+          docker run \
+            --tty \
+            --volume "$(pwd)":/tf bridgecrew/checkov:latest \
+            --directory /tf/.terraform \
+            --framework terraform \
+            --check CKV_AZURE* \
+            --soft-faif
