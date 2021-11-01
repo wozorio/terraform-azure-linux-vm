@@ -58,8 +58,8 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-     - name: Pull Checkov image
-       run: docker pull bridgecrew/checkov:latest
+      - name: Pull Checkov image
+        run: docker pull bridgecrew/checkov:latest
 
       - name: Scan Terraform main code with Checkov
         run: |
