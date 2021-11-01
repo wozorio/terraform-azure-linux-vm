@@ -65,7 +65,7 @@ jobs:
         env:
           TERRAFORM_DIRS: /tf /tf/.terraform
         run: |
-          for dir in "${{ env.TERRAFORM_DIRS }}"; do 
+          for dir in ${{ env.TERRAFORM_DIRS }}; do 
             echo "Scanning directory ${dir}"
             docker run \
               --tty \
