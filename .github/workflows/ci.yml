@@ -34,7 +34,7 @@ jobs:
           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
 
       - name: Ensure Terraform code is properly formatted
-        run: terraform fmt --recursive -check
+        run: terraform fmt -diff -check -recursive
 
       - name: Login to Azure
         run: |
