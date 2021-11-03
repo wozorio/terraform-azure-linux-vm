@@ -66,7 +66,8 @@ jobs:
         run: |
           for dir in ${{ env.TERRAFORM_DIRS }}; do   
            echo "Scanning directory ${dir}"
-           ls ${dir}
+           ls $(pwd)
+           ls $(pwd)/.terraform
             docker run \
               --tty \
               --env IGNORE_HIDDEN_DIRECTORY_ENV=false \
