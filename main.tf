@@ -99,3 +99,13 @@ module "nsg_association_vm_ubuntu" {
   network_interface_id      = module.nic_ubuntu.id
   network_security_group_id = module.nsg_vm_ubuntu.id
 }
+
+module "rg" {
+  source  = "claranet/rg/azurerm"
+  version = "5.0.1"
+
+  location    = "west europe"
+  client_name = "my_rg_name"
+  environment = "prod"
+  stack       = "my_rg_project"
+}
