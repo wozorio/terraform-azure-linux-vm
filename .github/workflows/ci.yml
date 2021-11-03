@@ -61,7 +61,7 @@ jobs:
         run: docker pull bridgecrew/checkov:latest
 
       - name: test
-        run |
+        run: |
           ls -l $(pwd)/.terraform/modules/rg
 
       - name: Scan external Terraform modules with Checkov
