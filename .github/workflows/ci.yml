@@ -60,6 +60,9 @@ jobs:
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
 
+      - run |
+          ls -l $(pwd)/.terraform/modules/rg
+
       - name: Scan external Terraform modules with Checkov
         run: |
           docker run \
