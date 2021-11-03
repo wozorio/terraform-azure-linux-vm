@@ -60,7 +60,7 @@ jobs:
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
 
-      - name: Scan external Terraform modules with Checkov
+      - name: Scan code with Checkov
         run: |
           docker run \
             --name test-container \
