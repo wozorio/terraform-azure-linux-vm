@@ -68,7 +68,6 @@ jobs:
            echo "Scanning directory ${dir}"
             docker run \
               --tty \
-              --env IGNORE_HIDDEN_DIRECTORY_ENV=false \
               --volume "$(pwd)":/tf bridgecrew/checkov:latest \
               --directory "${dir}" \
               --framework terraform \
@@ -78,12 +77,12 @@ jobs:
 
       - name: Scan external Terraform modules with Checkov
         run: |
-           ls -R $(pwd)/.terraform
+           ls -R .terraform
            docker run \
              --tty \
              --env IGNORE_HIDDEN_DIRECTORY_ENV=false \
-             --volume "$(pwd)/.terraform/modules":/externaltfmodules bridgecrew/checkov:latest \
-             --directory /externaltfmodules \
+             --volume .terraform:/tfextmodules bridgecrew/checkov:latest \
+             --directory /tfextmodules \
              --framework terraform \
              --check CKV_AZURE* \
              --soft-fail
