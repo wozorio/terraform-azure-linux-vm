@@ -33,7 +33,7 @@ jobs:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
 
-      - name: Ensure Terraform code is properly formatted
+      - name: Ensure the code is properly formatted
         run: terraform fmt -diff -check -recursive
 
       - name: Login to Azure
