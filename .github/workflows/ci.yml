@@ -81,8 +81,15 @@ jobs:
            docker run \
              --tty \
              --env IGNORE_HIDDEN_DIRECTORY_ENV=false \
-             --volume .terraform:/tfextmodules bridgecrew/checkov:latest \
+             --volume $(pwd)/.terraform:/tfextmodules bridgecrew/checkov:latest \
              --directory /tfextmodules \
              --framework terraform \
              --check CKV_AZURE* \
              --soft-fail
+
+      - name: Ubuntu test
+        run: |
+           docker run \
+             --tty \
+             --volume $(pwd)/.terraform:/tfextmodules ubuntu:latest \
+             ls -R /tfextmodules
