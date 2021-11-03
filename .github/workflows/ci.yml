@@ -60,26 +60,12 @@ jobs:
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
 
-      - name: test
-        run: |
-          ls -l $(pwd)/.terraform/modules/rg
-
       - name: Scan external Terraform modules with Checkov
         run: |
           docker run \
-            --name checkov-scan-ext-modules \
+            --name test-container \
             --tty \
-            --volume $(pwd)/.terraform:/tf bridgecrew/checkov:latest \
-            --directory /tf \
-            --framework terraform \
-            --check CKV_AZURE* \
-            --soft-fail
-
-      - name: Scan main Terraform code with Checkov
-        run: |
-          docker run \
-            --name checkov-scan-main-code \
-            --tty \
+            --rm \
             --volume $(pwd):/tf bridgecrew/checkov:latest \
             --directory /tf \
             --framework terraform \
