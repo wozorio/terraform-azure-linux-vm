@@ -60,36 +60,24 @@ jobs:
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
 
-      - name: Scan Terraform code with Checkov
-        env:
-          TERRAFORM_DIRS: /tf /tf/.terraform
+      - name: Scan main Terraform code with Checkov
         run: |
-          for dir in ${{ env.TERRAFORM_DIRS }}; do   
-           echo "Scanning directory ${dir}"
-            docker run \
-              --tty \
-              --volume "$(pwd)":/tf bridgecrew/checkov:latest \
-              --directory "${dir}" \
-              --framework terraform \
-              --check CKV_AZURE* \
-              --soft-fail
-          done
+          docker run \
+            --name checkov-scan-main-code \
+            --tty \
+            --volume $(pwd):/tf bridgecrew/checkov:latest \
+            --directory /tf \
+            --framework terraform \
+            --check CKV_AZURE* \
+            --soft-fail
 
       - name: Scan external Terraform modules with Checkov
         run: |
-           ls -R .terraform
-           docker run \
-             --tty \
-             --env IGNORE_HIDDEN_DIRECTORY_ENV=false \
-             --volume $(pwd)/.terraform:/tfextmodules bridgecrew/checkov:latest \
-             --directory /tfextmodules \
-             --framework terraform \
-             --check CKV_AZURE* \
-             --soft-fail
-
-      - name: Ubuntu test
-        run: |
-           docker run \
-             --tty \
-             --volume $(pwd)/.terraform:/tfextmodules ubuntu:latest \
-             ls -R /tfextmodules
+          docker run \
+            --name checkov-scan-ext-modules \
+            --tty \
+            --volume $(pwd)/.terraform:/tf bridgecrew/checkov:latest \
+            --directory /tf \
+            --framework terraform \
+            --check CKV_AZURE* \
+            --soft-fail
