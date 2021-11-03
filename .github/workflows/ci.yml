@@ -68,6 +68,7 @@ jobs:
             echo "Scanning directory ${dir}"
             docker run \
               --tty \
+              --env IGNORE_HIDDEN_DIRECTORY_ENV=false \
               --volume "$(pwd)":/tf bridgecrew/checkov:latest \
               --directory "${dir}" \
               --framework terraform \
