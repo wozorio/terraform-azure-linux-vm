@@ -77,3 +77,15 @@ jobs:
               --check CKV_AZURE* \
               --soft-fail
           done
+
+      - name: Scan external Terraform modules with Checkov
+        run: |
+           ls -lsa $(pwd)/.terraform
+           docker run \
+             --tty \
+             --env IGNORE_HIDDEN_DIRECTORY_ENV=false \
+             --volume "$(pwd)/.terraform":/externaltfmodules bridgecrew/checkov:latest \
+             --directory /externaltfmodules \
+             --framework terraform \
+             --check CKV_AZURE* \
+             --soft-fail
