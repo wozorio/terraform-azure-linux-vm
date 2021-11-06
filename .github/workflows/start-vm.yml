@@ -9,7 +9,7 @@ defaults:
     shell: bash
 
 jobs:
-  startup_vms:
+  start_vms:
     name: Start all virtual machines
     runs-on: ubuntu-latest
 
