@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Checkout bash-scripts repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: wozorio/bash-scripts
           path: bash-scripts
@@ -87,10 +87,10 @@ jobs:
     needs: terraform_plan
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Checkout bash-scripts repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: wozorio/bash-scripts
           path: bash-scripts
