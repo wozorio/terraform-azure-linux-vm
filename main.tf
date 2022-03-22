@@ -1,11 +1,3 @@
-terraform {
-  backend "azurerm" {
-    storage_account_name = "stterraformwozorio"
-    container_name       = "tfstate"
-    key                  = "playground.tfstate"
-  }
-}
-
 module "rg_playground" {
   source   = "./modules/resource_group/"
   name     = "rg-playground"
