@@ -3,9 +3,9 @@ output "id" {
 }
 
 output "name" {
-  value = azurerm_subnet.snet.name
+  value = azurerm_subnet.this.name
 }
 
 output "resource_group_name" {
-  value = azurerm_subnet.snet.resource_group_name
+  value = azurerm_subnet.this.resource_group_name
 }
