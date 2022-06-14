@@ -14,8 +14,8 @@ variable "resource_group_name" {
 }
 
 variable "security_rules" {
-  description = "List of objects representing security rules"
-  type = list(object({
+  description = "Set of objects representing security rules"
+  type = set(object({
     name                       = string
     priority                   = number
     direction                  = string
