@@ -1,5 +1,5 @@
 output "id" {
-  value = azurerm_subnet.snet.id
+  value = azurerm_subnet.this.id
 }
 
 output "name" {
