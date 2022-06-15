@@ -4,7 +4,7 @@
 [![CI](https://github.com/wozorio/terraform-azure/actions/workflows/ci.yml/badge.svg)](https://github.com/wozorio/terraform-azure/actions/workflows/ci.yml)
 [![Deploy](https://github.com/wozorio/terraform-azure/actions/workflows/deploy.yml/badge.svg)](https://github.com/wozorio/terraform-azure/actions/workflows/deploy.yml)
 
-Terraform code for deploying a Ubuntu Linux VM in Azure with GitHub Actions.
+Terraform code for deploying a Linux VM with Ubuntu 20.04 LTS (Focal Fossa) in Azure with GitHub Actions.
 
 ## Shutdown and Start
 
