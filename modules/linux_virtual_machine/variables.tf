@@ -56,7 +56,7 @@ variable "source_image_reference_offer" {
 variable "source_image_reference_sku" {
   description = "Specifies the SKU of the image used to create the virtual machines"
   type        = string
-  default     = "18.04-LTS"
+  default     = "20.04-LTS"
 }
 
 variable "source_image_reference_version" {
