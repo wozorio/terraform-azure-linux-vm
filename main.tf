@@ -1,6 +1,7 @@
 locals {
   tags = {
-    "creator" = "terraform"
+    creator     = "terraform"
+    environment = "playground"
   }
 }
 
