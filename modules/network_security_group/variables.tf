@@ -13,6 +13,11 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "tags" {
+  description = "A mapping of tags which should be assigned to the resource"
+  type        = map(string)
+}
+
 variable "security_rules" {
   description = "Set of objects representing security rules"
   type = set(object({

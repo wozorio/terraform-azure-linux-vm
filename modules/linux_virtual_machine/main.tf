@@ -6,6 +6,8 @@ resource "azurerm_linux_virtual_machine" "this" {
   admin_username        = var.admin_username
   network_interface_ids = var.network_interface_ids
 
+  tags = var.tags
+
   admin_ssh_key {
     username   = var.admin_username
     public_key = file("${path.module}/files/id_rsa.pub")

@@ -13,6 +13,11 @@ variable "location" {
   type        = string
 }
 
+variable "tags" {
+  description = "A mapping of tags which should be assigned to the resource"
+  type        = map(string)
+}
+
 variable "ip_configuration_name" {
   description = "A name used for this IP Configuration"
   type        = string

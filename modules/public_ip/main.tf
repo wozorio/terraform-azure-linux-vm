@@ -6,4 +6,6 @@ resource "azurerm_public_ip" "this" {
   sku                 = var.sku
   ip_version          = var.ip_version
   domain_name_label   = var.domain_name_label
+
+  tags = var.tags
 }

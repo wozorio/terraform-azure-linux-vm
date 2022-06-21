@@ -29,6 +29,11 @@ variable "network_interface_ids" {
   type        = list(string)
 }
 
+variable "tags" {
+  description = "A mapping of tags which should be assigned to this Virtual Machine"
+  type        = map(string)
+}
+
 variable "os_disk_caching" {
   description = "The Type of Caching which should be used for the Internal OS Disk. Possible values are None, ReadOnly and ReadWrite"
   type        = string

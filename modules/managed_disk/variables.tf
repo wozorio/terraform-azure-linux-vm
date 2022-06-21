@@ -13,6 +13,11 @@ variable "location" {
   type        = string
 }
 
+variable "tags" {
+  description = "A mapping of tags which should be assigned to the resource"
+  type        = map(string)
+}
+
 variable "storage_account_type" {
   description = "The type of storage to use for the managed disk. Possible values are Standard_LRS, Premium_LRS, StandardSSD_LRS or UltraSSD_LRS"
   type        = string

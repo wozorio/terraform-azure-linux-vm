@@ -17,3 +17,8 @@ variable "location" {
   description = "The location/region where the virtual network is created"
   type        = string
 }
+
+variable "tags" {
+  description = "A mapping of tags which should be assigned to the resource"
+  type        = map(string)
+}

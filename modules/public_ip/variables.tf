@@ -35,3 +35,8 @@ variable "domain_name_label" {
   description = "Label for the Domain Name. Will be used to make up the FQDN. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system"
   type        = string
 }
+
+variable "tags" {
+  description = "A mapping of tags which should be assigned to the resource"
+  type        = map(string)
+}
