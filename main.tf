@@ -1,6 +1,6 @@
 locals {
   tags = {
-    creator = terraform
+    "creator" = "terraform"
   }
 }
 
