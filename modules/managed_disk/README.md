@@ -29,6 +29,7 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | Specifies the name of the Managed Disk | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the Resource Group where the Managed Disk should exist | `string` | n/a | yes |
 | <a name="input_storage_account_type"></a> [storage\_account\_type](#input\_storage\_account\_type) | The type of storage to use for the managed disk. Possible values are Standard\_LRS, Premium\_LRS, StandardSSD\_LRS or UltraSSD\_LRS | `string` | `"Standard_LRS"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A mapping of tags which should be assigned to the resource | `map(string)` | `null` | no |
 
 ## Outputs
 

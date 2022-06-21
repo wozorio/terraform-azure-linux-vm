@@ -32,6 +32,7 @@ variable "network_interface_ids" {
 variable "tags" {
   description = "A mapping of tags which should be assigned to this Virtual Machine"
   type        = map(string)
+  default     = null
 }
 
 variable "os_disk_caching" {

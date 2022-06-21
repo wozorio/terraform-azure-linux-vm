@@ -16,6 +16,7 @@ variable "resource_group_name" {
 variable "tags" {
   description = "A mapping of tags which should be assigned to the resource"
   type        = map(string)
+  default     = null
 }
 
 variable "security_rules" {

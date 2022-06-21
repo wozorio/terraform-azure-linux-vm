@@ -30,6 +30,7 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | Specifies the name of the Public IP resource | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group in which to create the public ip | `string` | n/a | yes |
 | <a name="input_sku"></a> [sku](#input\_sku) | The SKU of the Public IP. Accepted values are Basic and Standard | `string` | `"Basic"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A mapping of tags which should be assigned to the resource | `map(string)` | `null` | no |
 
 ## Outputs
 

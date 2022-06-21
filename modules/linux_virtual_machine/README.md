@@ -35,6 +35,7 @@ No modules.
 | <a name="input_source_image_reference_publisher"></a> [source\_image\_reference\_publisher](#input\_source\_image\_reference\_publisher) | Specifies the publisher of the image used to create the virtual machines | `string` | `"Canonical"` | no |
 | <a name="input_source_image_reference_sku"></a> [source\_image\_reference\_sku](#input\_source\_image\_reference\_sku) | Specifies the SKU of the image used to create the virtual machines | `string` | `"20_04-lts-gen2"` | no |
 | <a name="input_source_image_reference_version"></a> [source\_image\_reference\_version](#input\_source\_image\_reference\_version) | Specifies the version of the image used to create the virtual machines | `string` | `"latest"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A mapping of tags which should be assigned to this Virtual Machine | `map(string)` | `null` | no |
 
 ## Outputs
 
