@@ -51,6 +51,7 @@ module "nic_ubuntu" {
   name                                           = "nic-ubuntu"
   location                                       = module.vnet.location
   resource_group_name                            = module.snet.resource_group_name
+
   ip_configuration_name                          = "ipconfig"
   ip_configuration_subnet_id                     = module.snet.id
   ip_configuration_private_ip_address_allocation = "Static"
