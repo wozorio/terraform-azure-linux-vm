@@ -34,6 +34,14 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v2.0.0
+
+      - name: Run TFLint
+        run: |
+          tflint --init
+          tflint --format compact
+
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
 

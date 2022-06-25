@@ -48,9 +48,9 @@ module "pip_ubuntu" {
 module "nic_ubuntu" {
   source = "./modules/network_interface/"
 
-  name                                           = "nic-ubuntu"
-  location                                       = module.vnet.location
-  resource_group_name                            = module.snet.resource_group_name
+  name                = "nic-ubuntu"
+  location            = module.vnet.location
+  resource_group_name = module.snet.resource_group_name
 
   ip_configuration_name                          = "ipconfig"
   ip_configuration_subnet_id                     = module.snet.id
