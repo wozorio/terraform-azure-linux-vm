@@ -34,6 +34,23 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      - uses: actions/cache@v2
+        name: Cache plugin dir
+        with:
+         path: ~/.tflint.d/plugins
+         key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
+
+      - uses: terraform-linters/setup-tflint@v1
+        name: Setup TFLint
+        with:
+          tflint_version: v0.29.0
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint -f compact
+
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
 
