@@ -41,7 +41,7 @@ jobs:
         run: tflint --init
 
       - name: Run TFLint
-        run: tflint -f compact
+        run: tflint --module --format compact
 
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
