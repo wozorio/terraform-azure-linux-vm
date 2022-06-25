@@ -67,7 +67,7 @@ module "vm_ubuntu" {
   name                  = "vm-ubuntu"
   resource_group_name   = module.nic_ubuntu.resource_group_name
   location              = module.nic_ubuntu.location
-  size                  = "Standard_B"
+  size                  = "Standard_B2s"
   admin_username        = "wozorio"
   network_interface_ids = [module.nic_ubuntu.id]
 
