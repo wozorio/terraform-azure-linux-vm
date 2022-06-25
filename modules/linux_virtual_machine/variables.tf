@@ -2,7 +2,7 @@ variable "name" {
   description = "The Name which should be used for this Resource Group"
   type        = string
 }
-
+// teste
 variable "resource_group_name" {
   description = "The name of the Resource Group in which the Linux Virtual Machine should be exist"
   type        = string
