@@ -38,7 +38,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_id"></a> [id](#output\_id) | n/a |
-| <a name="output_location"></a> [location](#output\_location) | n/a |
-| <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | n/a |
+| <a name="output_id"></a> [id](#output\_id) | The ID of the network interface |
+| <a name="output_location"></a> [location](#output\_location) | The location where the network interface exists |
+| <a name="output_resource_group_name"></a> [resource\_group\_name](#output\_resource\_group\_name) | The resource group where the network interface exists |
 <!-- END_TF_DOCS -->
