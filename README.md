@@ -1,8 +1,8 @@
 # Terraform Azure
 
-[![GitHub](https://img.shields.io/github/license/wozorio/terraform-azure)](https://github.com/wozorio/terraform-azure/blob/master/LICENSE)
-[![CI](https://github.com/wozorio/terraform-azure/actions/workflows/ci.yml/badge.svg)](https://github.com/wozorio/terraform-azure/actions/workflows/ci.yml)
-[![Deploy](https://github.com/wozorio/terraform-azure/actions/workflows/deploy.yml/badge.svg)](https://github.com/wozorio/terraform-azure/actions/workflows/deploy.yml)
+[![GitHub](https://img.shields.io/github/license/wozorio/terraform-azure-linux-vm)](https://github.com/wozorio/terraform-azure-linux-vm/blob/master/LICENSE)
+[![CI](https://github.com/wozorio/terraform-azure-linux-vm/actions/workflows/ci.yml/badge.svg)](https://github.com/wozorio/terraform-azure-linux-vm/actions/workflows/ci.yml)
+[![Deploy](https://github.com/wozorio/terraform-azure-linux-vm/actions/workflows/deploy.yml/badge.svg)](https://github.com/wozorio/terraform-azure-linux-vm/actions/workflows/deploy.yml)
 
 Terraform code for deploying a Linux VM with Ubuntu 20.04 LTS (Focal Fossa) in Azure with GitHub Actions.
 
