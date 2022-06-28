@@ -32,5 +32,5 @@ variable "security_rules" {
     source_address_prefix      = string
     destination_address_prefix = string
   }))
-  default = null
+  default = []
 }
