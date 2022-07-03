@@ -6,9 +6,9 @@ resource "azurerm_managed_disk" "this" {
   create_option        = var.create_option
   disk_size_gb         = var.disk_size_gb
 
-  tags = var.tags
-
   encryption_settings {
     enabled = true
   }
+
+  tags = var.tags
 }

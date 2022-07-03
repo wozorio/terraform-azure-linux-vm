@@ -3,8 +3,6 @@ resource "azurerm_network_security_group" "this" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  tags = var.tags
-
   dynamic "security_rule" {
     for_each = var.security_rules
 
@@ -20,4 +18,6 @@ resource "azurerm_network_security_group" "this" {
       destination_address_prefix = security_rule.value.destination_address_prefix
     }
   }
+
+  tags = var.tags
 }

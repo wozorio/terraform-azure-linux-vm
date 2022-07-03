@@ -3,8 +3,6 @@ resource "azurerm_network_interface" "this" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  tags = var.tags
-
   ip_configuration {
     name                          = var.ip_configuration_name
     subnet_id                     = var.ip_configuration_subnet_id
@@ -13,4 +11,6 @@ resource "azurerm_network_interface" "this" {
     private_ip_address            = var.ip_configuration_private_ip_address
     public_ip_address_id          = var.ip_configuration_public_ip_address_id
   }
+
+  tags = var.tags
 }
