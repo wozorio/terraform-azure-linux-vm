@@ -16,18 +16,19 @@ To save costs, the virtual machine is shutdown and started every day automatical
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.11.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | 3.14.0 |
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.14.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_nic_ubuntu"></a> [nic\_ubuntu](#module\_nic\_ubuntu) | ./modules/network_interface/ | n/a |
-| <a name="module_nsg_association_vm_ubuntu"></a> [nsg\_association\_vm\_ubuntu](#module\_nsg\_association\_vm\_ubuntu) | ./modules/network_interface_security_group_association/ | n/a |
 | <a name="module_nsg_vm_ubuntu"></a> [nsg\_vm\_ubuntu](#module\_nsg\_vm\_ubuntu) | ./modules/network_security_group/ | n/a |
 | <a name="module_pip_ubuntu"></a> [pip\_ubuntu](#module\_pip\_ubuntu) | ./modules/public_ip/ | n/a |
 | <a name="module_rg_playground"></a> [rg\_playground](#module\_rg\_playground) | ./modules/resource_group/ | n/a |
@@ -37,7 +38,9 @@ No providers.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [azurerm_network_interface_security_group_association.vm_ubuntu](https://registry.terraform.io/providers/hashicorp/azurerm/3.14.0/docs/resources/network_interface_security_group_association) | resource |
 
 ## Inputs
 

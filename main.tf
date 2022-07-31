@@ -109,9 +109,7 @@ module "nsg_vm_ubuntu" {
   tags = local.tags
 }
 
-module "nsg_association_vm_ubuntu" {
-  source = "./modules/network_interface_security_group_association/"
-
+resource "azurerm_network_interface_security_group_association" "vm_ubuntu" {
   network_interface_id      = module.nic_ubuntu.id
   network_security_group_id = module.nsg_vm_ubuntu.id
 }
