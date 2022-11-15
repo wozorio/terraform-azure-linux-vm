@@ -4,7 +4,7 @@ config {
 
 plugin "azurerm" {
   enabled = true
-  version = "0.17.0"
+  version = "0.42.2"
   source  = "github.com/terraform-linters/tflint-ruleset-azurerm"
 }
 
