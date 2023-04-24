@@ -4,7 +4,7 @@ terraform {
     # https://github.com/terraform-providers/terraform-provider-azurerm/blob/master/CHANGELOG.md
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.52.0"
+      version = "3.53.0"
     }
   }
 }
