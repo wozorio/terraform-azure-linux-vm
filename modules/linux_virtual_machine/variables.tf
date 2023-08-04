@@ -50,19 +50,19 @@ variable "os_disk_storage_account_type" {
 variable "source_image_reference_publisher" {
   description = "Specifies the publisher of the image used to create the virtual machines"
   type        = string
-  default     = "Canonical"
+  default     = "canonical"
 }
 
 variable "source_image_reference_offer" {
   description = "Specifies the offer of the image used to create the virtual machines"
   type        = string
-  default     = "0001-com-ubuntu-server-focal"
+  default     = "0001-com-ubuntu-server-jammy"
 }
 
 variable "source_image_reference_sku" {
   description = "Specifies the SKU of the image used to create the virtual machines"
   type        = string
-  default     = "20_04-lts-gen2"
+  default     = "22_04-lts-gen2"
 }
 
 variable "source_image_reference_version" {

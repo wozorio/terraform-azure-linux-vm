@@ -5,58 +5,54 @@ locals {
   }
 }
 
-module "rg_playground" {
-  source = "./modules/resource_group/"
-
+resource "azurerm_resource_group" "playground" {
   name     = "rg-playground"
   location = var.location
 
   tags = local.tags
 }
 
-module "vnet" {
-  source = "./modules/virtual_network/"
-
+resource "azurerm_virtual_network" "this" {
   name                = "vnet"
-  address_space       = ["10.0.0.0/8"]
-  resource_group_name = module.rg_playground.name
-  location            = module.rg_playground.location
+  address_space       = ["10.0.0.0/26"]
+  location            = azurerm_resource_group.playground.location
+  resource_group_name = azurerm_resource_group.playground.name
 
   tags = local.tags
 }
 
-module "snet" {
-  source = "./modules/subnet/"
-
+resource "azurerm_subnet" "this" {
   name                 = "snet"
-  resource_group_name  = module.vnet.resource_group_name
-  virtual_network_name = module.vnet.name
-  address_prefixes     = ["10.0.0.0/24"]
+  resource_group_name  = azurerm_virtual_network.this.resource_group_name
+  virtual_network_name = azurerm_virtual_network.this.name
+  address_prefixes     = ["10.0.0.0/28"]
 }
 
-module "pip_ubuntu" {
-  source = "./modules/public_ip/"
-
+resource "azurerm_public_ip" "vm_ubuntu" {
   name                = "pip-ubuntu"
+  resource_group_name = azurerm_resource_group.playground.name
+  location            = azurerm_resource_group.playground.location
+  allocation_method   = "Dynamic"
+  sku                 = "Basic"
+  ip_version          = "IPv4"
   domain_name_label   = "vm-ubuntu"
-  resource_group_name = module.rg_playground.name
-  location            = module.rg_playground.location
 
   tags = local.tags
 }
 
-module "nic_ubuntu" {
-  source = "./modules/network_interface/"
-
+resource "azurerm_network_interface" "vm_ubuntu" {
   name                = "nic-ubuntu"
-  location            = module.vnet.location
-  resource_group_name = module.snet.resource_group_name
+  location            = azurerm_virtual_network.this.location
+  resource_group_name = azurerm_subnet.this.resource_group_name
 
-  ip_configuration_name                          = "ipconfig"
-  ip_configuration_subnet_id                     = module.snet.id
-  ip_configuration_private_ip_address_allocation = "Static"
-  ip_configuration_private_ip_address            = "10.0.0.10"
-  ip_configuration_public_ip_address_id          = module.pip_ubuntu.id
+  ip_configuration {
+    name                          = "ipconfig"
+    subnet_id                     = azurerm_subnet.this.id
+    private_ip_address_version    = "IPv4"
+    private_ip_address_allocation = "Static"
+    private_ip_address            = "10.0.0.10"
+    public_ip_address_id          = azurerm_public_ip.vm_ubuntu.id
+  }
 
   tags = local.tags
 }
@@ -65,11 +61,11 @@ module "vm_ubuntu" {
   source = "./modules/linux_virtual_machine/"
 
   name                  = "vm-ubuntu"
-  resource_group_name   = module.nic_ubuntu.resource_group_name
-  location              = module.nic_ubuntu.location
+  resource_group_name   = azurerm_network_interface.vm_ubuntu.resource_group_name
+  location              = azurerm_network_interface.vm_ubuntu.location
   size                  = "Standard_B2s"
   admin_username        = "wozorio"
-  network_interface_ids = [module.nic_ubuntu.id]
+  network_interface_ids = [azurerm_network_interface.vm_ubuntu.id]
 
   tags = local.tags
 }
@@ -78,8 +74,8 @@ module "nsg_vm_ubuntu" {
   source = "./modules/network_security_group/"
 
   name                = "nsg-ubuntu"
-  location            = module.rg_playground.location
-  resource_group_name = module.rg_playground.name
+  location            = azurerm_resource_group.playground.location
+  resource_group_name = azurerm_resource_group.playground.name
 
   security_rules = [
     {
@@ -110,6 +106,6 @@ module "nsg_vm_ubuntu" {
 }
 
 resource "azurerm_network_interface_security_group_association" "vm_ubuntu" {
-  network_interface_id      = module.nic_ubuntu.id
+  network_interface_id      = azurerm_network_interface.vm_ubuntu.id
   network_security_group_id = module.nsg_vm_ubuntu.id
 }
