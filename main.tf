@@ -37,7 +37,7 @@ resource "azurerm_public_ip" "vm_ubuntu" {
   ip_version          = "IPv4"
   domain_name_label   = "vm-ubuntu"
 
-  tags = var.tags
+  tags = local.tags
 }
 
 resource "azurerm_network_interface" "vm_ubuntu" {
@@ -54,7 +54,7 @@ resource "azurerm_network_interface" "vm_ubuntu" {
     public_ip_address_id          = azurerm_public_ip.vm_ubuntu.id
   }
 
-  tags = var.tags
+  tags = local.tags
 }
 
 module "vm_ubuntu" {
