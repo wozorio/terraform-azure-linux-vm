@@ -34,7 +34,7 @@ jobs:
         run: terraform validate
 
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v3.0.0
+        uses: terraform-linters/setup-tflint@v3.1.0
 
       - name: Run TFLint
         run: |
