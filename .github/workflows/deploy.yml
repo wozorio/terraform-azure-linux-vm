@@ -26,6 +26,10 @@ jobs:
           repository: wozorio/bash-scripts
           path: bash-scripts
 
+      - name: Test
+        run: |
+          echo "Terraform version is ${{ env.TERRAFORM_VERSION }}"
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         env:
