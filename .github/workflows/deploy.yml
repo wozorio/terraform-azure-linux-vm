@@ -26,10 +26,6 @@ jobs:
           repository: wozorio/bash-scripts
           path: bash-scripts
 
-      - name: Test
-        run: |
-          echo "Terraform version is ${{ vars.TERRAFORM_VERSION }}"
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         env:
@@ -105,7 +101,7 @@ jobs:
         env:
           TERRAFORM_WRAPPER: false # when enabled JSON output of Terraform Plan is not properly parsed
         with:
-          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_version: ${{ vars.TERRAFORM_VERSION }}
           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
 
       - name: Login to Azure
