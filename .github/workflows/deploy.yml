@@ -28,14 +28,14 @@ jobs:
 
       - name: Test
         run: |
-          echo "Terraform version is ${{ env.TERRAFORM_VERSION }}"
+          echo "Terraform version is ${{ vars.TERRAFORM_VERSION }}"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         env:
           TERRAFORM_WRAPPER: false # when enabled JSON output of Terraform Plan is not properly parsed
         with:
-          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_version: ${{ vars.TERRAFORM_VERSION }}
           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
 
       - name: Login to Azure
