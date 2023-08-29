@@ -28,7 +28,7 @@ jobs:
 
       - name: Test
         run: |
-          echo "Terraform version is ${{ env.TERRAFORM_VERSION }}"
+          echo "Terraform version is ${{ vars.TERRAFORM_VERSION }}"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
