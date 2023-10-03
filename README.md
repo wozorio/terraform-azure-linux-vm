@@ -1,6 +1,6 @@
 # Terraform Azure
 
-[![GitHub](https://img.shields.io/github/license/wozorio/terraform-azure-linux-vm)](https://github.com/wozorio/terraform-azure-linux-vm/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/wozorio/terraform-azure-linux-vm)](https://github.com/wozorio/terraform-azure-linux-vm/blob/main/LICENSE)
 [![CI](https://github.com/wozorio/terraform-azure-linux-vm/actions/workflows/ci.yml/badge.svg)](https://github.com/wozorio/terraform-azure-linux-vm/actions/workflows/ci.yml)
 [![Deploy](https://github.com/wozorio/terraform-azure-linux-vm/actions/workflows/deploy.yml/badge.svg)](https://github.com/wozorio/terraform-azure-linux-vm/actions/workflows/deploy.yml)
 
