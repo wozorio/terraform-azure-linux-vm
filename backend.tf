@@ -1,10 +1,7 @@
 terraform {
-  backend "remote" {
-    hostname     = "app.terraform.io"
-    organization = "wozorio"
-
-    workspaces {
-      name = "playground"
-    }
+  backend "azurerm" {
+    storage_account_name = "stterraformwozorio"
+    container_name       = "tfstate"
+    key                  = "playground.tfstate"
   }
 }
