@@ -44,13 +44,7 @@ jobs:
 
       - name: Terraform Init
         run: |
-          ACCESS_KEY=$(az storage account keys list \
-            --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
-            --query "[0].value" | tr -d '"')
-
-          terraform init -backend-config="access_key=${ACCESS_KEY}"
-        env:
-          STORAGE_ACCOUNT_NAME: stterraformwozorio
+          terraform init
 
       - name: Terraform Plan
         run: |
