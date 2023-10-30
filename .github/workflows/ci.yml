@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         env:
           TERRAFORM_WRAPPER: false # when enabled JSON output of Terraform Plan is not properly parsed
         with:
