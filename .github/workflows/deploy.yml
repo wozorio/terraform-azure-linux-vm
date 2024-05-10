@@ -20,12 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Checkout bash-scripts repo
-        uses: actions/checkout@v4
-        with:
-          repository: wozorio/bash-scripts
-          path: bash-scripts
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         env:
@@ -34,13 +28,10 @@ jobs:
           terraform_version: ${{ vars.TERRAFORM_VERSION }}
           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
 
-      - name: Login to Azure
-        run: |
-          ./bash-scripts/azure-cli-login.sh \
-            ${{ secrets.SUBSCRIPTION_ID }} \
-            ${{ secrets.SERVICE_PRINCIPAL_ID }} \
-            ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
-            ${{ secrets.TENANT_ID }}
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Terraform Init
         run: |
@@ -90,12 +81,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Checkout bash-scripts repo
-        uses: actions/checkout@v4
-        with:
-          repository: wozorio/bash-scripts
-          path: bash-scripts
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         env:
@@ -104,13 +89,10 @@ jobs:
           terraform_version: ${{ vars.TERRAFORM_VERSION }}
           terraform_wrapper: ${{ env.TERRAFORM_WRAPPER }}
 
-      - name: Login to Azure
-        run: |
-          ./bash-scripts/azure-cli-login.sh \
-            ${{ secrets.SUBSCRIPTION_ID }} \
-            ${{ secrets.SERVICE_PRINCIPAL_ID }} \
-            ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
-            ${{ secrets.TENANT_ID }}
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Terraform Init
         run: |
