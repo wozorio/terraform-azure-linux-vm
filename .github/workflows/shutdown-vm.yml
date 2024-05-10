@@ -14,18 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the bash-scripts repo
-        uses: actions/checkout@v4
+      - name: Azure Login
+        uses: azure/login@v2
         with:
-          repository: wozorio/bash-scripts
-
-      - name: Login to Azure
-        run: |
-          ./azure-cli-login.sh \
-            ${{ secrets.SUBSCRIPTION_ID }} \
-            ${{ secrets.SERVICE_PRINCIPAL_ID }} \
-            ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
-            ${{ secrets.TENANT_ID }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Shutdown all virtual machines
         run: |
