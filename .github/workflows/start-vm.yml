@@ -21,4 +21,5 @@ jobs:
 
       - name: Start all virtual machines
         run: |
-          ./azure-vm-batch-start.sh
+          set -e
+          az vm start --ids "$(az vm list --query "[].id" --output tsv)"
