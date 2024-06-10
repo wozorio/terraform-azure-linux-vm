@@ -1,7 +1,3 @@
-provider "azurerm" {
-  features {}
-}
-
 locals {
   tags = {
     creator     = "terraform"

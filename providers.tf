@@ -5,3 +5,7 @@ terraform {
     key                  = "playground.tfstate"
   }
 }
+
+provider "azurerm" {
+  features {}
+}
