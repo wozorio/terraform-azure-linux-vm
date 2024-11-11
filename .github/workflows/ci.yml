@@ -40,7 +40,7 @@ jobs:
           key: ${{ runner.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
 
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v4.0.0
+        uses: terraform-linters/setup-tflint@v4.1.0
 
       - name: Init TFLint
         run: tflint --init
