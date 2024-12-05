@@ -51,19 +51,23 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Terraform Init
-        run: terraform init -backend=false && terraform plan -out=tfplan -input=false
+        run: terraform init -backend=false
 
       - name: Terraform Validate
         run: terraform validate
 
       - name: Terraform Plan
         run: |
+          export ARM_SUBSCRIPTION_ID="123"
+          export ARM_CLIENT_ID="123"
+          export ARM_CLIENT_SECRET="123"
+          export ARM_TENANT_ID="123"
           terraform plan -out=tfplan -input=false
-        env:
-          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-          ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
-          ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+        # env:
+        #   ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+        #   ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
+        #   ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
+        #   ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
 
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
