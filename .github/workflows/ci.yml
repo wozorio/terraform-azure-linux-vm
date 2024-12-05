@@ -58,7 +58,6 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          ls -lha
           terraform plan -input=false
         env:
           ARM_SUBSCRIPTION_ID: 123
