@@ -58,16 +58,13 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          export ARM_SUBSCRIPTION_ID="123"
-          export ARM_CLIENT_ID="123"
-          export ARM_CLIENT_SECRET="123"
-          export ARM_TENANT_ID="123"
+          ls -lha
           terraform plan -input=false
-        # env:
-        #   ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
-        #   ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }}
-        #   ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }}
-        #   ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+        env:
+          ARM_SUBSCRIPTION_ID: 123
+          ARM_CLIENT_ID: 123
+          ARM_CLIENT_SECRET: 123
+          ARM_TENANT_ID: 123
 
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
