@@ -57,13 +57,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: |
-          terraform plan -input=false
-        env:
-          ARM_SUBSCRIPTION_ID: 123
-          ARM_CLIENT_ID: 123
-          ARM_CLIENT_SECRET: 123
-          ARM_TENANT_ID: 123
+        uses: dflook/terraform-plan@v1.29.1
 
       - name: Pull Checkov image
         run: docker pull bridgecrew/checkov:latest
