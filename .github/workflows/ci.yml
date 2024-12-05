@@ -27,12 +27,6 @@ jobs:
       - name: Ensure code is formatted
         run: terraform fmt -diff -check -recursive
 
-      - name: Terraform Init
-        run: terraform init -backend=false
-
-      - name: Terraform Validate
-        run: terraform validate
-
       - uses: actions/cache@v4
         name: Cache TFLint plugin dir
         with:
@@ -51,16 +45,16 @@ jobs:
       - name: Run TFLint
         run: tflint
 
+      - name: Terraform Init
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        run: terraform validate
+
       - name: Azure Login
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Terraform Init
-        run: |
-          terraform init -upgrade -backend=false
-        env:
-          STORAGE_ACCOUNT_NAME: stterraformwozorio
 
       - name: Terraform Plan
         run: |
