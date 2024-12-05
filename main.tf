@@ -119,7 +119,7 @@ resource "azurerm_network_security_group" "ubuntu_vm" {
   tags = local.tags
 }
 
-resource "azurerm_network_interface_security_group_association" "vm_ubuntu" {
-  network_interface_id      = azurerm_network_interface.vm_ubuntu.id
-  network_security_group_id = module.nsg_vm_ubuntu.id
+resource "azurerm_network_interface_security_group_association" "ubuntu_vm" {
+  network_interface_id      = azurerm_network_interface.ubuntu_vm.id
+  network_security_group_id = azurerm_network_security_group.ubuntu_vm.id
 }
