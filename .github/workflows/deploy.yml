@@ -104,7 +104,7 @@ jobs:
         env:
           STORAGE_ACCOUNT_NAME: stterraformwozorio
 
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: tfplan
 
